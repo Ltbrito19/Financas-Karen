@@ -3,11 +3,26 @@
 MINHAS FINANÇAS
 database.js
 Responsável pelo armazenamento dos lançamentos
+e dos lembretes
 =====================================================
 */
 
-const DB_CHAVE = "minhas_financas_lancamentos";
 
+// =====================================================
+// CHAVES DO BANCO
+// =====================================================
+
+const DB_CHAVE =
+    "minhas_financas_lancamentos";
+
+
+const DB_LEMBRETES_CHAVE =
+    "minhas_financas_lembretes";
+
+
+// =====================================================
+// LANÇAMENTOS
+// =====================================================
 
 function obterLancamentos() {
 
@@ -144,6 +159,195 @@ function limparTodosLancamentos() {
 
     localStorage.removeItem(
         DB_CHAVE
+    );
+
+}
+
+
+// =====================================================
+// LEMBRETES
+// =====================================================
+// Os lembretes possuem armazenamento separado
+// dos lançamentos financeiros.
+// =====================================================
+
+
+function obterLembretes() {
+
+    const dados =
+        localStorage.getItem(
+            DB_LEMBRETES_CHAVE
+        );
+
+    if (!dados) {
+
+        return [];
+
+    }
+
+    try {
+
+        const lembretes =
+            JSON.parse(
+                dados
+            );
+
+        if (
+            !Array.isArray(
+                lembretes
+            )
+        ) {
+
+            return [];
+
+        }
+
+        return lembretes;
+
+    }
+
+    catch (
+        erro
+    ) {
+
+        console.error(
+            "Erro ao carregar lembretes:",
+            erro
+        );
+
+        return [];
+
+    }
+
+}
+
+
+function salvarLembretes(
+    lembretes
+) {
+
+    localStorage.setItem(
+
+        DB_LEMBRETES_CHAVE,
+
+        JSON.stringify(
+            lembretes
+        )
+
+    );
+
+}
+
+
+function adicionarLembrete(
+    lembrete
+) {
+
+    const lembretes =
+        obterLembretes();
+
+    lembretes.push(
+        lembrete
+    );
+
+    salvarLembretes(
+        lembretes
+    );
+
+    return lembrete;
+
+}
+
+
+function atualizarLembrete(
+    id,
+    dadosAtualizados
+) {
+
+    const lembretes =
+        obterLembretes();
+
+    const indice =
+        lembretes.findIndex(
+            item =>
+                item.id === id
+        );
+
+    if (
+        indice === -1
+    ) {
+
+        return false;
+
+    }
+
+    lembretes[indice] = {
+
+        ...lembretes[indice],
+
+        ...dadosAtualizados
+
+    };
+
+    salvarLembretes(
+        lembretes
+    );
+
+    return true;
+
+}
+
+
+function excluirLembrete(
+    id
+) {
+
+    const lembretes =
+        obterLembretes();
+
+    const novosLembretes =
+        lembretes.filter(
+            item =>
+                item.id !== id
+        );
+
+    if (
+        novosLembretes.length ===
+        lembretes.length
+    ) {
+
+        return false;
+
+    }
+
+    salvarLembretes(
+        novosLembretes
+    );
+
+    return true;
+
+}
+
+
+function obterLembretePorId(
+    id
+) {
+
+    const lembretes =
+        obterLembretes();
+
+    return lembretes.find(
+        item =>
+            item.id === id
+    );
+
+}
+
+
+function limparTodosLembretes() {
+
+    localStorage.removeItem(
+        DB_LEMBRETES_CHAVE
     );
 
 }
