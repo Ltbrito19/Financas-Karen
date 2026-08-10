@@ -1,10 +1,9 @@
-/*
-=====================================================
-MINHAS FINANÇAS
-backup.js
-Backup e restauração dos dados
-=====================================================
-*/
+// =====================================================
+// MINHAS FINANÇAS
+// backup.js
+// Backup e restauração de dados
+// Compatível com Android, iPhone e computador
+// =====================================================
 
 
 // =====================================================
@@ -117,31 +116,43 @@ async function exportarBackup() {
             obterNomeArquivoBackup();
 
 
-        // =============================================
+        // =================================================
+        // CRIAR ARQUIVO
+        // =================================================
+
+        const arquivo =
+            new File(
+                [
+                    blob
+                ],
+                nomeArquivo,
+                {
+                    type:
+                        "application/json"
+                }
+            );
+
+
+        // =================================================
         // COMPARTILHAMENTO NATIVO
-        // =============================================
+        // Android / iPhone
+        // =================================================
 
         if (
-            navigator.share &&
-            navigator.canShare
+            typeof navigator.share ===
+                "function"
         ) {
 
-            try {
-
-                const arquivo =
-                    new File(
-                        [
-                            blob
-                        ],
-                        nomeArquivo,
-                        {
-                            type:
-                                "application/json"
-                        }
-                    );
+            let podeCompartilhar =
+                true;
 
 
-                if (
+            if (
+                typeof navigator.canShare ===
+                    "function"
+            ) {
+
+                podeCompartilhar =
                     navigator.canShare(
                         {
                             files:
@@ -149,8 +160,16 @@ async function exportarBackup() {
                                     arquivo
                                 ]
                         }
-                    )
-                ) {
+                    );
+
+            }
+
+
+            if (
+                podeCompartilhar
+            ) {
+
+                try {
 
                     await navigator.share(
                         {
@@ -172,27 +191,48 @@ async function exportarBackup() {
 
                 }
 
-            }
-
-            catch (
-                erroCompartilhamento
-            ) {
-
-                console.log(
-                    "Compartilhamento cancelado:",
+                catch (
                     erroCompartilhamento
-                );
+                ) {
 
-                return false;
+                    /*
+                    -------------------------------------------------
+                    O usuário pode ter cancelado o compartilhamento.
+
+                    Nesse caso não mostramos erro.
+                    -------------------------------------------------
+                    */
+
+                    if (
+                        erroCompartilhamento &&
+                        erroCompartilhamento.name ===
+                            "AbortError"
+                    ) {
+
+                        console.log(
+                            "Compartilhamento cancelado pelo usuário."
+                        );
+
+                        return false;
+
+                    }
+
+
+                    console.warn(
+                        "Compartilhamento não disponível:",
+                        erroCompartilhamento
+                    );
+
+                }
 
             }
 
         }
 
 
-        // =============================================
-        // FALLBACK
-        // =============================================
+        // =================================================
+        // FALLBACK — DOWNLOAD
+        // =================================================
 
         const url =
             URL.createObjectURL(
@@ -212,6 +252,10 @@ async function exportarBackup() {
 
         link.download =
             nomeArquivo;
+
+
+        link.style.display =
+            "none";
 
 
         document.body.appendChild(
@@ -279,9 +323,13 @@ function validarArquivoBackup(
     ) {
 
         return {
-            valido: false,
+
+            valido:
+                false,
+
             mensagem:
                 "O arquivo não contém dados válidos."
+
         };
 
     }
@@ -293,9 +341,13 @@ function validarArquivoBackup(
     ) {
 
         return {
-            valido: false,
+
+            valido:
+                false,
+
             mensagem:
                 "Este arquivo não pertence ao Minhas Finanças."
+
         };
 
     }
@@ -308,18 +360,26 @@ function validarArquivoBackup(
     ) {
 
         return {
-            valido: false,
+
+            valido:
+                false,
+
             mensagem:
                 "O backup não possui uma lista válida de lançamentos."
+
         };
 
     }
 
 
     return {
-        valido: true,
+
+        valido:
+            true,
+
         mensagem:
             "Backup válido."
+
     };
 
 }
