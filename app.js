@@ -1,4 +1,4 @@
-// MINHAS FINANÇAS — app.js
+// MINHAS FINANÇAS — app.js (versão unificada + exportação funcionando)
 
 let tipoSelecionado = "entrada";
 let lancamentoEmEdicao = null;
@@ -38,7 +38,7 @@ let btnNovoLembrete, btnFecharModalLembrete, btnSalvarLembrete, btnExcluirLembre
 let modalLembrete, tituloModalLembrete, lembreteDataInput, lembreteValorInput, lembreteDescricaoInput;
 let listaLembretes, mensagemLembretesVazia, quantidadeLembretes, badgeLembretes;
 
-// CONFIGURAR ELEMENTOS
+// CONFIG ELEMENTOS
 function configurarElementos() {
     telaInicio = document.getElementById("telaInicio");
     telaResumo = document.getElementById("telaResumo");
@@ -466,12 +466,4 @@ function atualizarResumoCompleto() {
 function atualizarTituloResumo() {
     const periodo = filtroPeriodo.value;
     const textos = {
-        mes: "Este mês",
-        hoje: "Hoje",
-        semana: "Esta semana",
-        mesAnterior: "Mês anterior",
-        todos: "Todos os lançamentos"
-    };
-
-    if (periodo === "personalizado") {
-        if (filtroDataInicial.value && filtroDataFinal.value) {
+        mes: "Este
