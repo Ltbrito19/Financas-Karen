@@ -3,8 +3,12 @@
 // app.js
 // =====================================================
 
+
 let tipoSelecionado = "entrada";
+
 let lancamentoEmEdicao = null;
+
+let lembreteEmEdicao = null;
 
 
 // =====================================================
@@ -31,11 +35,15 @@ function iniciarAplicativo() {
 
     configurarLimpezaRegistros();
 
+    configurarLembretes();
+
     definirDataAtual();
 
     atualizarMes();
 
     carregarTela();
+
+    atualizarIndicadorLembretes();
 
 }
 
@@ -47,6 +55,7 @@ function iniciarAplicativo() {
 let telaInicio;
 let telaResumo;
 let telaExportar;
+let telaLembretes;
 
 let modal;
 let tituloModal;
@@ -89,9 +98,13 @@ let btnLimparFiltros;
 let btnMenuInicio;
 let btnMenuResumo;
 let btnMenuExcel;
+let btnMenuLembretes;
+let btnMenuBackup;
+
 let btnResumoTopo;
 let btnVoltarInicio;
 let btnVoltarInicioExportar;
+let btnVoltarInicioLembretes;
 
 let exportarPeriodo;
 let exportarTipo;
@@ -107,6 +120,41 @@ let mensagemExportacao;
 let btnLimparRegistros;
 
 
+// =====================================================
+// ELEMENTOS DOS LEMBRETES
+// =====================================================
+
+let btnNovoLembrete;
+
+let btnFecharModalLembrete;
+
+let btnSalvarLembrete;
+
+let btnExcluirLembrete;
+
+let modalLembrete;
+
+let tituloModalLembrete;
+
+let lembreteDataInput;
+
+let lembreteValorInput;
+
+let lembreteDescricaoInput;
+
+let listaLembretes;
+
+let mensagemLembretesVazia;
+
+let quantidadeLembretes;
+
+let badgeLembretes;
+
+
+// =====================================================
+// CONFIGURAR ELEMENTOS
+// =====================================================
+
 function configurarElementos() {
 
     telaInicio =
@@ -114,10 +162,12 @@ function configurarElementos() {
             "telaInicio"
         );
 
+
     telaResumo =
         document.getElementById(
             "telaResumo"
         );
+
 
     telaExportar =
         document.getElementById(
@@ -125,10 +175,17 @@ function configurarElementos() {
         );
 
 
+    telaLembretes =
+        document.getElementById(
+            "telaLembretes"
+        );
+
+
     modal =
         document.getElementById(
             "modalLancamento"
         );
+
 
     tituloModal =
         document.getElementById(
@@ -141,25 +198,30 @@ function configurarElementos() {
             "btnNovoLancamento"
         );
 
+
     btnFecharModal =
         document.getElementById(
             "btnFecharModal"
         );
+
 
     btnEntrada =
         document.getElementById(
             "btnEntrada"
         );
 
+
     btnSaida =
         document.getElementById(
             "btnSaida"
         );
 
+
     btnSalvar =
         document.getElementById(
             "btnSalvar"
         );
+
 
     btnExcluir =
         document.getElementById(
@@ -172,25 +234,30 @@ function configurarElementos() {
             "valor"
         );
 
+
     descricaoInput =
         document.getElementById(
             "descricao"
         );
+
 
     categoriaInput =
         document.getElementById(
             "categoria"
         );
 
+
     pagamentoInput =
         document.getElementById(
             "pagamento"
         );
 
+
     dataInput =
         document.getElementById(
             "data"
         );
+
 
     observacaoInput =
         document.getElementById(
@@ -203,25 +270,30 @@ function configurarElementos() {
             "listaLancamentos"
         );
 
+
     mensagemVazia =
         document.getElementById(
             "mensagemVazia"
         );
+
 
     totalEntradas =
         document.getElementById(
             "totalEntradas"
         );
 
+
     totalSaidas =
         document.getElementById(
             "totalSaidas"
         );
 
+
     saldo =
         document.getElementById(
             "saldo"
         );
+
 
     quantidadeLancamentos =
         document.getElementById(
@@ -234,25 +306,30 @@ function configurarElementos() {
             "resumoSaldo"
         );
 
+
     resumoEntradas =
         document.getElementById(
             "resumoEntradas"
         );
+
 
     resumoSaidas =
         document.getElementById(
             "resumoSaidas"
         );
 
+
     resumoCategorias =
         document.getElementById(
             "resumoCategorias"
         );
 
+
     resumoPagamentos =
         document.getElementById(
             "resumoPagamentos"
         );
+
 
     mesResumo =
         document.getElementById(
@@ -265,25 +342,30 @@ function configurarElementos() {
             "filtroPeriodo"
         );
 
+
     filtroTipo =
         document.getElementById(
             "filtroTipo"
         );
+
 
     datasPersonalizadas =
         document.getElementById(
             "datasPersonalizadas"
         );
 
+
     filtroDataInicial =
         document.getElementById(
             "filtroDataInicial"
         );
 
+
     filtroDataFinal =
         document.getElementById(
             "filtroDataFinal"
         );
+
 
     btnLimparFiltros =
         document.getElementById(
@@ -296,29 +378,52 @@ function configurarElementos() {
             "btnMenuInicio"
         );
 
+
     btnMenuResumo =
         document.getElementById(
             "btnMenuResumo"
         );
+
 
     btnMenuExcel =
         document.getElementById(
             "btnMenuExcel"
         );
 
+
+    btnMenuLembretes =
+        document.getElementById(
+            "btnMenuLembretes"
+        );
+
+
+    btnMenuBackup =
+        document.getElementById(
+            "btnMenuBackup"
+        );
+
+
     btnResumoTopo =
         document.getElementById(
             "btnResumoTopo"
         );
+
 
     btnVoltarInicio =
         document.getElementById(
             "btnVoltarInicio"
         );
 
+
     btnVoltarInicioExportar =
         document.getElementById(
             "btnVoltarInicioExportar"
+        );
+
+
+    btnVoltarInicioLembretes =
+        document.getElementById(
+            "btnVoltarInicioLembretes"
         );
 
 
@@ -327,40 +432,48 @@ function configurarElementos() {
             "exportarPeriodo"
         );
 
+
     exportarTipo =
         document.getElementById(
             "exportarTipo"
         );
+
 
     exportarDatasPersonalizadas =
         document.getElementById(
             "exportarDatasPersonalizadas"
         );
 
+
     exportarDataInicial =
         document.getElementById(
             "exportarDataInicial"
         );
+
 
     exportarDataFinal =
         document.getElementById(
             "exportarDataFinal"
         );
 
+
     exportarQuantidade =
         document.getElementById(
             "exportarQuantidade"
         );
+
 
     exportarPeriodoTexto =
         document.getElementById(
             "exportarPeriodoTexto"
         );
 
+
     btnGerarExcel =
         document.getElementById(
             "btnGerarExcel"
         );
+
 
     mensagemExportacao =
         document.getElementById(
@@ -377,6 +490,88 @@ function configurarElementos() {
             "btnLimparRegistros"
         );
 
+
+    // =================================================
+    // ELEMENTOS DOS LEMBRETES
+    // =================================================
+
+    btnNovoLembrete =
+        document.getElementById(
+            "btnNovoLembrete"
+        );
+
+
+    btnFecharModalLembrete =
+        document.getElementById(
+            "btnFecharModalLembrete"
+        );
+
+
+    btnSalvarLembrete =
+        document.getElementById(
+            "btnSalvarLembrete"
+        );
+
+
+    btnExcluirLembrete =
+        document.getElementById(
+            "btnExcluirLembrete"
+        );
+
+
+    modalLembrete =
+        document.getElementById(
+            "modalLembrete"
+        );
+
+
+    tituloModalLembrete =
+        document.getElementById(
+            "tituloModalLembrete"
+        );
+
+
+    lembreteDataInput =
+        document.getElementById(
+            "lembreteData"
+        );
+
+
+    lembreteValorInput =
+        document.getElementById(
+            "lembreteValor"
+        );
+
+
+    lembreteDescricaoInput =
+        document.getElementById(
+            "lembreteDescricao"
+        );
+
+
+    listaLembretes =
+        document.getElementById(
+            "listaLembretes"
+        );
+
+
+    mensagemLembretesVazia =
+        document.getElementById(
+            "mensagemLembretesVazia"
+        );
+
+
+    quantidadeLembretes =
+        document.getElementById(
+            "quantidadeLembretes"
+        );
+
+
+    badgeLembretes =
+        document.getElementById(
+            "badgeLembretes"
+        );
+
 }
 
 
@@ -391,27 +586,44 @@ function configurarNavegacao() {
         mostrarInicio
     );
 
+
     btnMenuResumo.addEventListener(
         "click",
         mostrarResumo
     );
+
 
     btnMenuExcel.addEventListener(
         "click",
         mostrarExportar
     );
 
+
+    btnMenuLembretes.addEventListener(
+        "click",
+        mostrarLembretes
+    );
+
+
     btnResumoTopo.addEventListener(
         "click",
         mostrarResumo
     );
+
 
     btnVoltarInicio.addEventListener(
         "click",
         mostrarInicio
     );
 
+
     btnVoltarInicioExportar.addEventListener(
+        "click",
+        mostrarInicio
+    );
+
+
+    btnVoltarInicioLembretes.addEventListener(
         "click",
         mostrarInicio
     );
@@ -421,15 +633,40 @@ function configurarNavegacao() {
 
 function mostrarInicio() {
 
-    telaInicio.hidden = false;
-    telaResumo.hidden = true;
-    telaExportar.hidden = true;
+    telaInicio.hidden =
+        false;
 
-    btnMenuInicio.classList.add("ativo");
-    btnMenuResumo.classList.remove("ativo");
-    btnMenuExcel.classList.remove("ativo");
+    telaResumo.hidden =
+        true;
 
-    window.scrollTo(0, 0);
+    telaExportar.hidden =
+        true;
+
+    telaLembretes.hidden =
+        true;
+
+
+    btnMenuInicio.classList.add(
+        "ativo"
+    );
+
+    btnMenuResumo.classList.remove(
+        "ativo"
+    );
+
+    btnMenuExcel.classList.remove(
+        "ativo"
+    );
+
+    btnMenuLembretes.classList.remove(
+        "ativo"
+    );
+
+
+    window.scrollTo(
+        0,
+        0
+    );
 
 }
 
@@ -438,32 +675,129 @@ function mostrarResumo() {
 
     atualizarResumoCompleto();
 
-    telaInicio.hidden = true;
-    telaResumo.hidden = false;
-    telaExportar.hidden = true;
 
-    btnMenuInicio.classList.remove("ativo");
-    btnMenuResumo.classList.add("ativo");
-    btnMenuExcel.classList.remove("ativo");
+    telaInicio.hidden =
+        true;
 
-    window.scrollTo(0, 0);
+    telaResumo.hidden =
+        false;
+
+    telaExportar.hidden =
+        true;
+
+    telaLembretes.hidden =
+        true;
+
+
+    btnMenuInicio.classList.remove(
+        "ativo"
+    );
+
+    btnMenuResumo.classList.add(
+        "ativo"
+    );
+
+    btnMenuExcel.classList.remove(
+        "ativo"
+    );
+
+    btnMenuLembretes.classList.remove(
+        "ativo"
+    );
+
+
+    window.scrollTo(
+        0,
+        0
+    );
 
 }
 
 
 function mostrarExportar() {
 
-    telaInicio.hidden = true;
-    telaResumo.hidden = true;
-    telaExportar.hidden = false;
+    telaInicio.hidden =
+        true;
 
-    btnMenuInicio.classList.remove("ativo");
-    btnMenuResumo.classList.remove("ativo");
-    btnMenuExcel.classList.add("ativo");
+    telaResumo.hidden =
+        true;
+
+    telaExportar.hidden =
+        false;
+
+    telaLembretes.hidden =
+        true;
+
+
+    btnMenuInicio.classList.remove(
+        "ativo"
+    );
+
+    btnMenuResumo.classList.remove(
+        "ativo"
+    );
+
+    btnMenuExcel.classList.add(
+        "ativo"
+    );
+
+    btnMenuLembretes.classList.remove(
+        "ativo"
+    );
+
 
     atualizarPreviaExportacao();
 
-    window.scrollTo(0, 0);
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+}
+
+
+function mostrarLembretes() {
+
+    telaInicio.hidden =
+        true;
+
+    telaResumo.hidden =
+        true;
+
+    telaExportar.hidden =
+        true;
+
+    telaLembretes.hidden =
+        false;
+
+
+    btnMenuInicio.classList.remove(
+        "ativo"
+    );
+
+    btnMenuResumo.classList.remove(
+        "ativo"
+    );
+
+    btnMenuExcel.classList.remove(
+        "ativo"
+    );
+
+    btnMenuLembretes.classList.add(
+        "ativo"
+    );
+
+
+    renderizarLembretes();
+
+    atualizarIndicadorLembretes();
+
+
+    window.scrollTo(
+        0,
+        0
+    );
 
 }
 
@@ -484,7 +818,9 @@ function definirDataAtual() {
 
 function atualizarMes() {
 
-    const hoje = new Date();
+    const hoje =
+        new Date();
+
 
     const texto =
         hoje.toLocaleDateString(
@@ -495,11 +831,15 @@ function atualizarMes() {
             }
         );
 
+
     document.getElementById(
         "mesAtual"
-    ).textContent = texto;
+    ).textContent =
+        texto;
 
-    mesResumo.textContent = texto;
+
+    mesResumo.textContent =
+        texto;
 
 }
 
@@ -515,10 +855,12 @@ function configurarLancamentos() {
         abrirNovoLancamento
     );
 
+
     btnFecharModal.addEventListener(
         "click",
         fecharModal
     );
+
 
     modal.addEventListener(
         "click",
@@ -538,13 +880,19 @@ function configurarLancamentos() {
 
     btnEntrada.addEventListener(
         "click",
-        () => selecionarTipo("entrada")
+        () =>
+            selecionarTipo(
+                "entrada"
+            )
     );
 
 
     btnSaida.addEventListener(
         "click",
-        () => selecionarTipo("saida")
+        () =>
+            selecionarTipo(
+                "saida"
+            )
     );
 
 
@@ -564,22 +912,32 @@ function configurarLancamentos() {
 
 function abrirNovoLancamento() {
 
-    lancamentoEmEdicao = null;
+    lancamentoEmEdicao =
+        null;
+
 
     limparFormulario();
+
 
     tituloModal.textContent =
         "Novo lançamento";
 
+
     btnSalvar.textContent =
         "Salvar lançamento";
 
-    btnExcluir.hidden = true;
 
-    modal.hidden = false;
+    btnExcluir.hidden =
+        true;
+
+
+    modal.hidden =
+        false;
+
 
     setTimeout(
-        () => valorInput.focus(),
+        () =>
+            valorInput.focus(),
         200
     );
 
@@ -588,9 +946,12 @@ function abrirNovoLancamento() {
 
 function fecharModal() {
 
-    modal.hidden = true;
+    modal.hidden =
+        true;
 
-    lancamentoEmEdicao = null;
+
+    lancamentoEmEdicao =
+        null;
 
 }
 
@@ -599,18 +960,23 @@ function fecharModal() {
 // SELECIONAR TIPO
 // =====================================================
 
-function selecionarTipo(tipo) {
+function selecionarTipo(
+    tipo
+) {
 
-    tipoSelecionado = tipo;
+    tipoSelecionado =
+        tipo;
 
 
     if (
-        tipo === "entrada"
+        tipo ===
+        "entrada"
     ) {
 
         btnEntrada.classList.add(
             "entrada-selecionada"
         );
+
 
         btnSaida.classList.remove(
             "saida-selecionada"
@@ -631,6 +997,7 @@ function selecionarTipo(tipo) {
         btnSaida.classList.add(
             "saida-selecionada"
         );
+
 
         btnEntrada.classList.remove(
             "entrada-selecionada"
@@ -654,39 +1021,50 @@ function selecionarTipo(tipo) {
 
 
 // =====================================================
-// SALVAR
+// SALVAR LANÇAMENTO
 // =====================================================
 
 function salvarLancamentoFormulario() {
 
     const dados = {
 
-        tipo: tipoSelecionado,
+        tipo:
+            tipoSelecionado,
 
-        valor: valorInput.value,
+        valor:
+            valorInput.value,
 
-        descricao: descricaoInput.value,
+        descricao:
+            descricaoInput.value,
 
         categoria:
-            tipoSelecionado === "entrada"
+            tipoSelecionado ===
+            "entrada"
                 ? "Sem categoria"
                 : categoriaInput.value,
 
-        pagamento: "Padrão",
+        pagamento:
+            "Padrão",
 
-        data: dataInput.value,
+        data:
+            dataInput.value,
 
-        observacao: observacaoInput.value
+        observacao:
+            observacaoInput.value
 
     };
 
 
     const novo =
-        criarLancamento(dados);
+        criarLancamento(
+            dados
+        );
 
 
     const validacao =
-        validarLancamento(novo);
+        validarLancamento(
+            novo
+        );
 
 
     if (
@@ -703,34 +1081,49 @@ function salvarLancamentoFormulario() {
 
 
     if (
-        lancamentoEmEdicao !== null
+        lancamentoEmEdicao !==
+        null
     ) {
 
         atualizarLancamento(
             lancamentoEmEdicao,
             {
-                tipo: dados.tipo,
-                valor: Number(dados.valor),
+
+                tipo:
+                    dados.tipo,
+
+                valor:
+                    Number(
+                        dados.valor
+                    ),
+
                 descricao:
                     String(
                         dados.descricao
                     ).trim(),
+
                 categoria:
                     dados.categoria,
+
                 pagamento:
                     "Padrão",
+
                 data:
                     dados.data,
+
                 observacao:
                     String(
                         dados.observacao
                     ).trim()
+
             }
         );
 
     } else {
 
-        adicionarLancamento(novo);
+        adicionarLancamento(
+            novo
+        );
 
     }
 
@@ -747,29 +1140,42 @@ function salvarLancamentoFormulario() {
 
 
 // =====================================================
-// EDIÇÃO
+// EDIÇÃO DE LANÇAMENTO
 // =====================================================
 
-function abrirEdicao(id) {
+function abrirEdicao(
+    id
+) {
 
     const lancamento =
-        obterLancamentoPorId(id);
+        obterLancamentoPorId(
+            id
+        );
 
 
-    if (!lancamento) {
+    if (
+        !lancamento
+    ) {
+
         return;
+
     }
 
 
-    lancamentoEmEdicao = id;
+    lancamentoEmEdicao =
+        id;
+
 
     tituloModal.textContent =
         "Editar lançamento";
 
+
     btnSalvar.textContent =
         "Salvar alterações";
 
-    btnExcluir.hidden = false;
+
+    btnExcluir.hidden =
+        false;
 
 
     selecionarTipo(
@@ -780,12 +1186,14 @@ function abrirEdicao(id) {
     valorInput.value =
         lancamento.valor;
 
+
     descricaoInput.value =
         lancamento.descricao;
 
 
     if (
-        lancamento.tipo === "entrada"
+        lancamento.tipo ===
+        "entrada"
     ) {
 
         categoriaInput.value =
@@ -803,28 +1211,35 @@ function abrirEdicao(id) {
     pagamentoInput.value =
         "Padrão";
 
+
     dataInput.value =
         lancamento.data;
 
+
     observacaoInput.value =
-        lancamento.observacao || "";
+        lancamento.observacao ||
+        "";
 
 
-    modal.hidden = false;
+    modal.hidden =
+        false;
 
 }
 
 
 // =====================================================
-// EXCLUSÃO
+// EXCLUSÃO DE LANÇAMENTO
 // =====================================================
 
 function excluirLancamentoAtual() {
 
     if (
-        lancamentoEmEdicao === null
+        lancamentoEmEdicao ===
+        null
     ) {
+
         return;
+
     }
 
 
@@ -834,8 +1249,12 @@ function excluirLancamentoAtual() {
         );
 
 
-    if (!confirmar) {
+    if (
+        !confirmar
+    ) {
+
         return;
+
     }
 
 
@@ -893,7 +1312,8 @@ function limparTodosOsRegistros() {
 
 
     if (
-        quantidade === 0
+        quantidade ===
+        0
     ) {
 
         alert(
@@ -904,10 +1324,6 @@ function limparTodosOsRegistros() {
 
     }
 
-
-    // =================================================
-    // PRIMEIRA CONFIRMAÇÃO
-    // =================================================
 
     const primeiraConfirmacao =
         confirm(
@@ -934,10 +1350,6 @@ function limparTodosOsRegistros() {
     }
 
 
-    // =================================================
-    // SEGUNDA CONFIRMAÇÃO
-    // =================================================
-
     const segundaConfirmacao =
         confirm(
 
@@ -961,10 +1373,6 @@ function limparTodosOsRegistros() {
     }
 
 
-    // =================================================
-    // VERIFICAÇÃO HUMANA
-    // =================================================
-
     const confirmacaoHumana =
         prompt(
 
@@ -979,7 +1387,8 @@ function limparTodosOsRegistros() {
 
 
     if (
-        confirmacaoHumana === null
+        confirmacaoHumana ===
+        null
     ) {
 
         return;
@@ -1002,10 +1411,6 @@ function limparTodosOsRegistros() {
     }
 
 
-    // =================================================
-    // ÚLTIMA CONFIRMAÇÃO
-    // =================================================
-
     const confirmacaoFinal =
         confirm(
 
@@ -1026,10 +1431,6 @@ function limparTodosOsRegistros() {
 
     }
 
-
-    // =================================================
-    // APAGAR REGISTROS
-    // =================================================
 
     try {
 
@@ -1099,6 +1500,10 @@ function carregarTela() {
 }
 
 
+// =====================================================
+// RENDERIZAR LANÇAMENTOS
+// =====================================================
+
 function renderizarLancamentos(
     lancamentos
 ) {
@@ -1110,7 +1515,8 @@ function renderizarLancamentos(
 
 
     itens.forEach(
-        item => item.remove()
+        item =>
+            item.remove()
     );
 
 
@@ -1119,7 +1525,8 @@ function renderizarLancamentos(
 
 
     if (
-        lancamentos.length === 0
+        lancamentos.length ===
+        0
     ) {
 
         mensagemVazia.style.display =
@@ -1149,6 +1556,10 @@ function renderizarLancamentos(
 }
 
 
+// =====================================================
+// CRIAR ELEMENTO DE LANÇAMENTO
+// =====================================================
+
 function criarElementoLancamento(
     lancamento
 ) {
@@ -1164,7 +1575,8 @@ function criarElementoLancamento(
 
 
     const entrada =
-        lancamento.tipo === "entrada";
+        lancamento.tipo ===
+        "entrada";
 
 
     const classe =
@@ -1395,10 +1807,15 @@ function alterarPeriodo() {
 function obterFiltrosAtuais() {
 
     return obterFiltrosGenericos(
+
         filtroPeriodo.value,
+
         filtroTipo.value,
+
         filtroDataInicial.value,
+
         filtroDataFinal.value
+
     );
 
 }
@@ -1411,12 +1828,16 @@ function obterFiltrosGenericos(
     dataFinalPersonalizada
 ) {
 
-    let dataInicial = "";
-    let dataFinal = "";
+    let dataInicial =
+        "";
+
+    let dataFinal =
+        "";
 
 
     if (
-        periodo === "mes"
+        periodo ===
+        "mes"
     ) {
 
         dataInicial =
@@ -1429,7 +1850,8 @@ function obterFiltrosGenericos(
 
 
     if (
-        periodo === "hoje"
+        periodo ===
+        "hoje"
     ) {
 
         dataInicial =
@@ -1442,13 +1864,17 @@ function obterFiltrosGenericos(
 
 
     if (
-        periodo === "semana"
+        periodo ===
+        "semana"
     ) {
 
-        const hoje = new Date();
+        const hoje =
+            new Date();
+
 
         const dia =
             hoje.getDay();
+
 
         const diferenca =
             dia === 0
@@ -1457,7 +1883,9 @@ function obterFiltrosGenericos(
 
 
         const inicio =
-            new Date(hoje);
+            new Date(
+                hoje
+            );
 
 
         inicio.setDate(
@@ -1467,11 +1895,14 @@ function obterFiltrosGenericos(
 
 
         const fim =
-            new Date(inicio);
+            new Date(
+                inicio
+            );
 
 
         fim.setDate(
-            inicio.getDate() + 6
+            inicio.getDate() +
+            6
         );
 
 
@@ -1479,6 +1910,7 @@ function obterFiltrosGenericos(
             formatarDataISO(
                 inicio
             );
+
 
         dataFinal =
             formatarDataISO(
@@ -1493,22 +1925,31 @@ function obterFiltrosGenericos(
         "mesAnterior"
     ) {
 
-        const hoje = new Date();
+        const hoje =
+            new Date();
 
 
         const inicio =
             new Date(
+
                 hoje.getFullYear(),
+
                 hoje.getMonth() - 1,
+
                 1
+
             );
 
 
         const fim =
             new Date(
+
                 hoje.getFullYear(),
+
                 hoje.getMonth(),
+
                 0
+
             );
 
 
@@ -1516,6 +1957,7 @@ function obterFiltrosGenericos(
             formatarDataISO(
                 inicio
             );
+
 
         dataFinal =
             formatarDataISO(
@@ -1540,9 +1982,13 @@ function obterFiltrosGenericos(
 
 
     return {
+
         tipo,
+
         dataInicial,
+
         dataFinal
+
     };
 
 }
@@ -1555,8 +2001,11 @@ function obterLancamentosFiltrados() {
 
 
     return filtrarLancamentos(
+
         obterLancamentos(),
+
         filtros
+
     );
 
 }
@@ -1567,14 +2016,18 @@ function limparFiltros() {
     filtroPeriodo.value =
         "mes";
 
+
     filtroTipo.value =
         "todos";
+
 
     filtroDataInicial.value =
         "";
 
+
     filtroDataFinal.value =
         "";
+
 
     datasPersonalizadas.hidden =
         true;
@@ -1677,10 +2130,13 @@ function atualizarTituloResumo() {
         ) {
 
             mesResumo.textContent =
+
                 formatarData(
                     filtroDataInicial.value
                 ) +
+
                 " até " +
+
                 formatarData(
                     filtroDataFinal.value
                 );
@@ -1691,6 +2147,7 @@ function atualizarTituloResumo() {
                 "Período personalizado";
 
         }
+
 
         return;
 
@@ -1703,6 +2160,10 @@ function atualizarTituloResumo() {
 
 }
 
+
+// =====================================================
+// RESUMO POR CATEGORIA
+// =====================================================
 
 function renderizarResumoCategorias(
     lancamentos
@@ -1719,11 +2180,14 @@ function renderizarResumoCategorias(
 
 
     const categorias =
-        Object.keys(dados);
+        Object.keys(
+            dados
+        );
 
 
     if (
-        categorias.length === 0
+        categorias.length ===
+        0
     ) {
 
         resumoCategorias.innerHTML = `
@@ -1746,6 +2210,7 @@ function renderizarResumoCategorias(
             </div>
 
         `;
+
 
         return;
 
@@ -1837,6 +2302,10 @@ function renderizarResumoCategorias(
 }
 
 
+// =====================================================
+// RESUMO POR PAGAMENTO
+// =====================================================
+
 function renderizarResumoPagamentos(
     lancamentos
 ) {
@@ -1852,11 +2321,14 @@ function renderizarResumoPagamentos(
 
 
     const pagamentos =
-        Object.keys(dados);
+        Object.keys(
+            dados
+        );
 
 
     if (
-        pagamentos.length === 0
+        pagamentos.length ===
+        0
     ) {
 
         resumoPagamentos.innerHTML = `
@@ -1879,6 +2351,7 @@ function renderizarResumoPagamentos(
             </div>
 
         `;
+
 
         return;
 
@@ -2074,8 +2547,11 @@ function obterLancamentosParaExportar() {
 
 
     return filtrarLancamentos(
+
         obterLancamentos(),
+
         filtros
+
     );
 
 }
@@ -2108,7 +2584,8 @@ function obterTextoPeriodoExportacao() {
 
 
     if (
-        periodo === "mes"
+        periodo ===
+        "mes"
     ) {
 
         return "Este mês";
@@ -2117,7 +2594,8 @@ function obterTextoPeriodoExportacao() {
 
 
     if (
-        periodo === "hoje"
+        periodo ===
+        "hoje"
     ) {
 
         return "Hoje";
@@ -2126,7 +2604,8 @@ function obterTextoPeriodoExportacao() {
 
 
     if (
-        periodo === "semana"
+        periodo ===
+        "semana"
     ) {
 
         return "Esta semana";
@@ -2135,7 +2614,8 @@ function obterTextoPeriodoExportacao() {
 
 
     if (
-        periodo === "mesAnterior"
+        periodo ===
+        "mesAnterior"
     ) {
 
         return "Mês anterior";
@@ -2144,7 +2624,8 @@ function obterTextoPeriodoExportacao() {
 
 
     if (
-        periodo === "todos"
+        periodo ===
+        "todos"
     ) {
 
         return "Todos os lançamentos";
@@ -2153,7 +2634,8 @@ function obterTextoPeriodoExportacao() {
 
 
     if (
-        periodo === "personalizado"
+        periodo ===
+        "personalizado"
     ) {
 
         if (
@@ -2162,13 +2644,17 @@ function obterTextoPeriodoExportacao() {
         ) {
 
             return (
+
                 formatarData(
                     exportarDataInicial.value
                 ) +
+
                 " até " +
+
                 formatarData(
                     exportarDataFinal.value
                 )
+
             );
 
         }
@@ -2195,7 +2681,8 @@ function gerarExcel() {
 
 
     if (
-        lancamentos.length === 0
+        lancamentos.length ===
+        0
     ) {
 
         mensagemExportacao.textContent =
@@ -2215,8 +2702,10 @@ function gerarExcel() {
             lancamentos
         );
 
+
         mensagemExportacao.textContent =
             "Excel gerado com sucesso.";
+
 
         return;
 
@@ -2232,8 +2721,10 @@ function gerarExcel() {
             lancamentos
         );
 
+
         mensagemExportacao.textContent =
             "Excel gerado com sucesso.";
+
 
         return;
 
@@ -2252,14 +2743,21 @@ function gerarExcel() {
 
 function limparFormulario() {
 
-    valorInput.value = "";
+    valorInput.value =
+        "";
 
-    descricaoInput.value = "";
 
-    observacaoInput.value = "";
+    descricaoInput.value =
+        "";
+
+
+    observacaoInput.value =
+        "";
+
 
     categoriaInput.value =
         "Sem categoria";
+
 
     pagamentoInput.value =
         "Padrão";
@@ -2273,3 +2771,609 @@ function limparFormulario() {
     );
 
 }
+
+
+// =====================================================
+// LEMBRETES
+// =====================================================
+
+function configurarLembretes() {
+
+    if (
+        !btnNovoLembrete ||
+        !modalLembrete
+    ) {
+
+        console.warn(
+            "Elementos dos lembretes não encontrados."
+        );
+
+        return;
+
+    }
+
+
+    btnNovoLembrete.addEventListener(
+        "click",
+        abrirNovoLembrete
+    );
+
+
+    btnFecharModalLembrete.addEventListener(
+        "click",
+        fecharModalLembrete
+    );
+
+
+    modalLembrete.addEventListener(
+        "click",
+        evento => {
+
+            if (
+                evento.target ===
+                modalLembrete
+            ) {
+
+                fecharModalLembrete();
+
+            }
+
+        }
+    );
+
+
+    btnSalvarLembrete.addEventListener(
+        "click",
+        salvarLembreteFormulario
+    );
+
+
+    btnExcluirLembrete.addEventListener(
+        "click",
+        excluirLembreteAtual
+    );
+
+}
+
+
+// =====================================================
+// ABRIR NOVO LEMBRETE
+// =====================================================
+
+function abrirNovoLembrete() {
+
+    lembreteEmEdicao =
+        null;
+
+
+    limparFormularioLembrete();
+
+
+    tituloModalLembrete.textContent =
+        "Novo pagamento";
+
+
+    btnSalvarLembrete.textContent =
+        "Salvar pagamento";
+
+
+    btnExcluirLembrete.hidden =
+        true;
+
+
+    modalLembrete.hidden =
+        false;
+
+
+    setTimeout(
+        () =>
+            lembreteDataInput.focus(),
+        150
+    );
+
+}
+
+
+// =====================================================
+// FECHAR MODAL LEMBRETE
+// =====================================================
+
+function fecharModalLembrete() {
+
+    modalLembrete.hidden =
+        true;
+
+
+    lembreteEmEdicao =
+        null;
+
+}
+
+
+// =====================================================
+// LIMPAR FORMULÁRIO LEMBRETE
+// =====================================================
+
+function limparFormularioLembrete() {
+
+    lembreteDataInput.value =
+        formatarDataISO(
+            new Date()
+        );
+
+
+    lembreteValorInput.value =
+        "";
+
+
+    lembreteDescricaoInput.value =
+        "";
+
+}
+
+
+// =====================================================
+// SALVAR LEMBRETE
+// =====================================================
+
+function salvarLembreteFormulario() {
+
+    const dados = {
+
+        data:
+            lembreteDataInput.value,
+
+        valor:
+            lembreteValorInput.value,
+
+        descricao:
+            lembreteDescricaoInput.value
+
+    };
+
+
+    let resultado;
+
+
+    if (
+        lembreteEmEdicao !==
+        null
+    ) {
+
+        resultado =
+            salvarAlteracaoLembrete(
+
+                lembreteEmEdicao,
+
+                dados
+
+            );
+
+    } else {
+
+        resultado =
+            salvarNovoLembrete(
+                dados
+            );
+
+    }
+
+
+    if (
+        !resultado.sucesso
+    ) {
+
+        alert(
+            resultado.mensagem
+        );
+
+        return;
+
+    }
+
+
+    fecharModalLembrete();
+
+
+    renderizarLembretes();
+
+    atualizarIndicadorLembretes();
+
+}
+
+
+// =====================================================
+// EDITAR LEMBRETE
+// =====================================================
+
+function abrirEdicaoLembrete(
+    id
+) {
+
+    const lembrete =
+        obterLembretePorId(
+            id
+        );
+
+
+    if (
+        !lembrete
+    ) {
+
+        return;
+
+    }
+
+
+    lembreteEmEdicao =
+        id;
+
+
+    tituloModalLembrete.textContent =
+        "Editar pagamento";
+
+
+    btnSalvarLembrete.textContent =
+        "Salvar alterações";
+
+
+    btnExcluirLembrete.hidden =
+        false;
+
+
+    lembreteDataInput.value =
+        lembrete.data;
+
+
+    lembreteValorInput.value =
+        (
+            lembrete.valor !==
+                null &&
+            lembrete.valor !==
+                undefined
+        )
+            ? lembrete.valor
+            : "";
+
+
+    lembreteDescricaoInput.value =
+        lembrete.descricao;
+
+
+    modalLembrete.hidden =
+        false;
+
+}
+
+
+// =====================================================
+// EXCLUIR LEMBRETE
+// =====================================================
+
+function excluirLembreteAtual() {
+
+    if (
+        lembreteEmEdicao ===
+        null
+    ) {
+
+        return;
+
+    }
+
+
+    const confirmar =
+        confirm(
+            "Deseja excluir este pagamento agendado?"
+        );
+
+
+    if (
+        !confirmar
+    ) {
+
+        return;
+
+    }
+
+
+    const resultado =
+        removerLembrete(
+            lembreteEmEdicao
+        );
+
+
+    if (
+        !resultado.sucesso
+    ) {
+
+        alert(
+            resultado.mensagem
+        );
+
+        return;
+
+    }
+
+
+    fecharModalLembrete();
+
+
+    renderizarLembretes();
+
+    atualizarIndicadorLembretes();
+
+}
+
+
+// =====================================================
+// RENDERIZAR LEMBRETES
+// =====================================================
+
+function renderizarLembretes() {
+
+    if (
+        !listaLembretes
+    ) {
+
+        return;
+
+    }
+
+
+    const lembretes =
+        obterLembretesOrdenados();
+
+
+    const itens =
+        listaLembretes.querySelectorAll(
+            ".lembrete-item"
+        );
+
+
+    itens.forEach(
+        item =>
+            item.remove()
+    );
+
+
+    quantidadeLembretes.textContent =
+        lembretes.length;
+
+
+    if (
+        lembretes.length ===
+        0
+    ) {
+
+        mensagemLembretesVazia.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    mensagemLembretesVazia.style.display =
+        "none";
+
+
+    lembretes.forEach(
+        lembrete => {
+
+            listaLembretes.appendChild(
+
+                criarElementoLembrete(
+                    lembrete
+                )
+
+            );
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// CRIAR ELEMENTO DO LEMBRETE
+// =====================================================
+
+function criarElementoLembrete(
+    lembrete
+) {
+
+    const elemento =
+        document.createElement(
+            "div"
+        );
+
+
+    elemento.className =
+        "lancamento lembrete-item";
+
+
+    const status =
+        obterStatusLembrete(
+            lembrete
+        );
+
+
+    const valorInformado =
+        lembrete.valor !==
+            null &&
+        lembrete.valor !==
+            undefined &&
+        lembrete.valor !==
+            "";
+
+
+    const valorTexto =
+        valorInformado
+            ? formatarMoeda(
+                lembrete.valor
+            )
+            : "Valor não informado";
+
+
+    elemento.dataset.status =
+        status.status;
+
+
+    elemento.innerHTML = `
+
+        <div
+            class="lancamento-icone
+            lembrete-icone-status"
+        >
+            🔔
+        </div>
+
+
+        <div class="lancamento-info">
+
+            <strong>
+                ${escaparHTML(
+                    lembrete.descricao
+                )}
+            </strong>
+
+
+            <small>
+
+                ${formatarData(
+                    lembrete.data
+                )}
+
+                ·
+
+                ${escaparHTML(
+                    status.texto
+                )}
+
+            </small>
+
+        </div>
+
+
+        <div
+            class="lancamento-valor
+            lembrete-valor"
+        >
+
+            ${valorTexto}
+
+        </div>
+
+
+        <button
+            type="button"
+            class="btn-editar-lancamento"
+        >
+            Editar
+        </button>
+
+    `;
+
+
+    elemento
+        .querySelector(
+            ".btn-editar-lancamento"
+        )
+        .addEventListener(
+            "click",
+            evento => {
+
+                evento.stopPropagation();
+
+
+                abrirEdicaoLembrete(
+                    lembrete.id
+                );
+
+            }
+        );
+
+
+    elemento.addEventListener(
+        "click",
+        () => {
+
+            abrirEdicaoLembrete(
+                lembrete.id
+            );
+
+        }
+    );
+
+
+    return elemento;
+
+}
+
+
+// =====================================================
+// INDICADOR DO SINO
+// =====================================================
+
+function atualizarIndicadorLembretes() {
+
+    if (
+        !badgeLembretes
+    ) {
+
+        return;
+
+    }
+
+
+    const quantidade =
+        contarLembretesAtencao();
+
+
+    if (
+        quantidade <=
+        0
+    ) {
+
+        badgeLembretes.hidden =
+            true;
+
+
+        badgeLembretes.textContent =
+            "0";
+
+
+        return;
+
+    }
+
+
+    badgeLembretes.hidden =
+        false;
+
+
+    badgeLembretes.textContent =
+        quantidade > 99
+            ? "99+"
+            : quantidade;
+
+}
+
+
+// =====================================================
+// INICIALIZAÇÃO DOS LEMBRETES
+// =====================================================
+
+function atualizarLembretes() {
+
+    renderizarLembretes();
+
+    atualizarIndicadorLembretes();
+
+}
+
+
+// =====================================================
+// FIM
+// =====================================================

@@ -454,6 +454,113 @@
 
 
     <!-- =================================================
+         TELA LEMBRETES
+    ================================================== -->
+
+    <section
+        id="telaLembretes"
+        hidden
+    >
+
+
+        <header class="header">
+
+            <div>
+
+                <h1>
+                    Lembretes
+                </h1>
+
+                <p>
+                    Pagamentos agendados
+                </p>
+
+            </div>
+
+
+            <button
+                class="btn-icon"
+                id="btnVoltarInicioLembretes"
+                aria-label="Voltar"
+            >
+                ←
+            </button>
+
+        </header>
+
+
+        <!-- BOTÃO NOVO PAGAMENTO -->
+
+        <section class="lista-section">
+
+            <button
+                type="button"
+                class="btn-principal"
+                id="btnNovoLembrete"
+            >
+
+                <span>
+                    ＋
+                </span>
+
+                Agendar pagamento
+
+            </button>
+
+        </section>
+
+
+        <!-- LISTA DE LEMBRETES -->
+
+        <section class="lista-section">
+
+            <div class="titulo-lista">
+
+                <h2>
+                    Pagamentos
+                </h2>
+
+                <span id="quantidadeLembretes">
+                    0
+                </span>
+
+            </div>
+
+
+            <div
+                id="listaLembretes"
+                class="lista"
+            >
+
+                <div
+                    class="vazio"
+                    id="mensagemLembretesVazia"
+                >
+
+                    <div class="icone-vazio">
+                        🔔
+                    </div>
+
+                    <h3>
+                        Nenhum pagamento agendado
+                    </h3>
+
+                    <p>
+                        Cadastre uma conta para
+                        receber um lembrete.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </section>
+
+
+    <!-- =================================================
          TELA EXPORTAR
     ================================================== -->
 
@@ -818,9 +925,7 @@
         </header>
 
 
-        <!-- =================================================
-             CRIAR BACKUP
-        ================================================== -->
+        <!-- CRIAR BACKUP -->
 
         <section class="lista-section">
 
@@ -868,9 +973,7 @@
         </section>
 
 
-        <!-- =================================================
-             RESTAURAR BACKUP
-        ================================================== -->
+        <!-- RESTAURAR BACKUP -->
 
         <section class="lista-section">
 
@@ -931,9 +1034,7 @@
         </section>
 
 
-        <!-- =================================================
-             LIMPAR REGISTROS
-        ================================================== -->
+        <!-- LIMPAR REGISTROS -->
 
         <section class="lista-section">
 
@@ -985,9 +1086,7 @@
         </section>
 
 
-        <!-- =================================================
-             AVISO
-        ================================================== -->
+        <!-- AVISO -->
 
         <section class="lista-section">
 
@@ -1056,6 +1155,36 @@
 
             <small>
                 Resumo
+            </small>
+
+        </button>
+
+
+        <!-- LEMBRETES -->
+
+        <button
+            class="menu-item"
+            id="btnMenuLembretes"
+        >
+
+            <span
+                class="menu-icone-lembretes"
+            >
+
+                🔔
+
+                <strong
+                    id="badgeLembretes"
+                    class="badge-lembretes"
+                    hidden
+                >
+                    0
+                </strong>
+
+            </span>
+
+            <small>
+                Lembretes
             </small>
 
         </button>
@@ -1345,6 +1474,113 @@
 
 
 <!-- =====================================================
+     MODAL LEMBRETE
+====================================================== -->
+
+<div
+    class="modal-overlay"
+    id="modalLembrete"
+    hidden
+>
+
+    <div class="modal">
+
+
+        <div class="modal-header">
+
+            <h2 id="tituloModalLembrete">
+                Novo pagamento
+            </h2>
+
+
+            <button
+                class="btn-fechar"
+                id="btnFecharModalLembrete"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- DATA DO PAGAMENTO -->
+
+        <div class="campo">
+
+            <label for="lembreteData">
+                Data do pagamento
+            </label>
+
+            <input
+                type="date"
+                id="lembreteData"
+            >
+
+        </div>
+
+
+        <!-- VALOR -->
+
+        <div class="campo">
+
+            <label for="lembreteValor">
+                Valor
+            </label>
+
+            <input
+                type="number"
+                id="lembreteValor"
+                placeholder="Opcional"
+                inputmode="decimal"
+                step="0.01"
+            >
+
+        </div>
+
+
+        <!-- DESCRIÇÃO -->
+
+        <div class="campo">
+
+            <label for="lembreteDescricao">
+                Descrição
+            </label>
+
+            <input
+                type="text"
+                id="lembreteDescricao"
+                placeholder="Ex.: Aluguel"
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <button
+            type="button"
+            class="btn-salvar"
+            id="btnSalvarLembrete"
+        >
+            Salvar pagamento
+        </button>
+
+
+        <button
+            type="button"
+            class="btn-excluir"
+            id="btnExcluirLembrete"
+            hidden
+        >
+            Excluir pagamento
+        </button>
+
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
      BIBLIOTECA EXCEL
 ====================================================== -->
 
@@ -1368,6 +1604,8 @@
 <script src="js/exportar.js"></script>
 
 <script src="js/backup.js"></script>
+
+<script src="js/lembretes.js"></script>
 
 <script src="auth.js"></script>
 
@@ -1409,6 +1647,12 @@ document.addEventListener(
             );
 
 
+        const telaLembretes =
+            document.getElementById(
+                "telaLembretes"
+            );
+
+
         const btnMenuInicio =
             document.getElementById(
                 "btnMenuInicio"
@@ -1433,9 +1677,21 @@ document.addEventListener(
             );
 
 
+        const btnMenuLembretes =
+            document.getElementById(
+                "btnMenuLembretes"
+            );
+
+
         const btnVoltarInicioBackup =
             document.getElementById(
                 "btnVoltarInicioBackup"
+            );
+
+
+        const btnVoltarInicioLembretes =
+            document.getElementById(
+                "btnVoltarInicioLembretes"
             );
 
 
@@ -1481,6 +1737,9 @@ document.addEventListener(
             telaBackup.hidden =
                 false;
 
+            telaLembretes.hidden =
+                true;
+
 
             btnMenuInicio.classList.remove(
                 "ativo"
@@ -1491,6 +1750,10 @@ document.addEventListener(
             );
 
             btnMenuExcel.classList.remove(
+                "ativo"
+            );
+
+            btnMenuLembretes.classList.remove(
                 "ativo"
             );
 
@@ -1508,7 +1771,7 @@ document.addEventListener(
 
 
         // =================================================
-        // VOLTAR
+        // VOLTAR BACKUP
         // =================================================
 
         function voltarInicioBackup() {
@@ -1525,6 +1788,111 @@ document.addEventListener(
             telaBackup.hidden =
                 true;
 
+            telaLembretes.hidden =
+                true;
+
+
+            btnMenuInicio.classList.add(
+                "ativo"
+            );
+
+            btnMenuResumo.classList.remove(
+                "ativo"
+            );
+
+            btnMenuExcel.classList.remove(
+                "ativo"
+            );
+
+            btnMenuLembretes.classList.remove(
+                "ativo"
+            );
+
+            btnMenuBackup.classList.remove(
+                "ativo"
+            );
+
+
+            window.scrollTo(
+                0,
+                0
+            );
+
+        }
+
+
+        // =================================================
+        // MOSTRAR LEMBRETES
+        // =================================================
+
+        function mostrarLembretes() {
+
+            telaInicio.hidden =
+                true;
+
+            telaResumo.hidden =
+                true;
+
+            telaExportar.hidden =
+                true;
+
+            telaBackup.hidden =
+                true;
+
+            telaLembretes.hidden =
+                false;
+
+
+            btnMenuInicio.classList.remove(
+                "ativo"
+            );
+
+            btnMenuResumo.classList.remove(
+                "ativo"
+            );
+
+            btnMenuExcel.classList.remove(
+                "ativo"
+            );
+
+            btnMenuBackup.classList.remove(
+                "ativo"
+            );
+
+            btnMenuLembretes.classList.add(
+                "ativo"
+            );
+
+
+            window.scrollTo(
+                0,
+                0
+            );
+
+        }
+
+
+        // =================================================
+        // VOLTAR LEMBRETES
+        // =================================================
+
+        function voltarInicioLembretes() {
+
+            telaInicio.hidden =
+                false;
+
+            telaResumo.hidden =
+                true;
+
+            telaExportar.hidden =
+                true;
+
+            telaBackup.hidden =
+                true;
+
+            telaLembretes.hidden =
+                true;
+
 
             btnMenuInicio.classList.add(
                 "ativo"
@@ -1539,6 +1907,10 @@ document.addEventListener(
             );
 
             btnMenuBackup.classList.remove(
+                "ativo"
+            );
+
+            btnMenuLembretes.classList.remove(
                 "ativo"
             );
 
@@ -1562,12 +1934,32 @@ document.addEventListener(
 
 
         // =================================================
-        // BOTÃO VOLTAR
+        // BOTÃO VOLTAR BACKUP
         // =================================================
 
         btnVoltarInicioBackup.addEventListener(
             "click",
             voltarInicioBackup
+        );
+
+
+        // =================================================
+        // MENU LEMBRETES
+        // =================================================
+
+        btnMenuLembretes.addEventListener(
+            "click",
+            mostrarLembretes
+        );
+
+
+        // =================================================
+        // BOTÃO VOLTAR LEMBRETES
+        // =================================================
+
+        btnVoltarInicioLembretes.addEventListener(
+            "click",
+            voltarInicioLembretes
         );
 
 
