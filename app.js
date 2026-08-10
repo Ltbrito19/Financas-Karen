@@ -1,15 +1,8 @@
-// =====================================================
-// MINHAS FINANÇAS
-// app.js
-// =====================================================
+// MINHAS FINANÇAS — app.js
 
 let tipoSelecionado = "entrada";
 let lancamentoEmEdicao = null;
 let lembreteEmEdicao = null;
-
-// =====================================================
-// INICIALIZAÇÃO
-// =====================================================
 
 document.addEventListener("DOMContentLoaded", iniciarAplicativo);
 
@@ -27,99 +20,25 @@ function iniciarAplicativo() {
     atualizarIndicadorLembretes();
 }
 
-// =====================================================
 // ELEMENTOS
-// =====================================================
-
-let telaInicio;
-let telaResumo;
-let telaExportar;
-let telaLembretes;
-
-let modal;
-let tituloModal;
-
-let btnNovoLancamento;
-let btnFecharModal;
-let btnEntrada;
-let btnSaida;
-let btnSalvar;
-let btnExcluir;
-
-let valorInput;
-let descricaoInput;
-let categoriaInput;
-let pagamentoInput;
-let dataInput;
-let observacaoInput;
-
-let listaLancamentos;
-let mensagemVazia;
-let totalEntradas;
-let totalSaidas;
-let saldo;
-let quantidadeLancamentos;
-
-let resumoSaldo;
-let resumoEntradas;
-let resumoSaidas;
-let resumoCategorias;
-let resumoPagamentos;
-let mesResumo;
-
-let filtroPeriodo;
-let filtroTipo;
-let datasPersonalizadas;
-let filtroDataInicial;
-let filtroDataFinal;
-let btnLimparFiltros;
-
-let btnMenuInicio;
-let btnMenuResumo;
-let btnMenuExcel;
-let btnMenuLembretes;
-let btnMenuBackup;
-
-let btnResumoTopo;
-let btnVoltarInicio;
-let btnVoltarInicioExportar;
-let btnVoltarInicioLembretes;
-
-let exportarPeriodo;
-let exportarTipo;
-let exportarDatasPersonalizadas;
-let exportarDataInicial;
-let exportarDataFinal;
-let exportarQuantidade;
-let exportarPeriodoTexto;
-let btnGerarExcel;
-let mensagemExportacao;
-
-// Limpeza
+let telaInicio, telaResumo, telaExportar, telaLembretes;
+let modal, tituloModal, btnNovoLancamento, btnFecharModal, btnEntrada, btnSaida, btnSalvar, btnExcluir;
+let valorInput, descricaoInput, categoriaInput, pagamentoInput, dataInput, observacaoInput;
+let listaLancamentos, mensagemVazia, totalEntradas, totalSaidas, saldo, quantidadeLancamentos;
+let resumoSaldo, resumoEntradas, resumoSaidas, resumoCategorias, resumoPagamentos, mesResumo;
+let filtroPeriodo, filtroTipo, datasPersonalizadas, filtroDataInicial, filtroDataFinal, btnLimparFiltros;
+let btnMenuInicio, btnMenuResumo, btnMenuExcel, btnMenuLembretes, btnMenuBackup;
+let btnResumoTopo, btnVoltarInicio, btnVoltarInicioExportar, btnVoltarInicioLembretes;
+let exportarPeriodo, exportarTipo, exportarDatasPersonalizadas, exportarDataInicial, exportarDataFinal;
+let exportarQuantidade, exportarPeriodoTexto, btnGerarExcel, mensagemExportacao;
 let btnLimparRegistros;
 
-// =====================================================
-// ELEMENTOS DOS LEMBRETES
-// =====================================================
+// Lembretes
+let btnNovoLembrete, btnFecharModalLembrete, btnSalvarLembrete, btnExcluirLembrete;
+let modalLembrete, tituloModalLembrete, lembreteDataInput, lembreteValorInput, lembreteDescricaoInput;
+let listaLembretes, mensagemLembretesVazia, quantidadeLembretes, badgeLembretes;
 
-let btnNovoLembrete;
-let btnFecharModalLembrete;
-let btnSalvarLembrete;
-let btnExcluirLembrete;
-let modalLembrete;
-let tituloModalLembrete;
-let lembreteDataInput;
-let lembreteValorInput;
-let lembreteDescricaoInput;
-let listaLembretes;
-let mensagemLembretesVazia;
-let quantidadeLembretes;
-let badgeLembretes;
-
-// =====================================================
 // CONFIGURAR ELEMENTOS
-// =====================================================
-
 function configurarElementos() {
     telaInicio = document.getElementById("telaInicio");
     telaResumo = document.getElementById("telaResumo");
@@ -202,20 +121,17 @@ function configurarElementos() {
     badgeLembretes = document.getElementById("badgeLembretes");
 }
 
-// =====================================================
 // NAVEGAÇÃO
-// =====================================================
-
 function configurarNavegacao() {
-    btnMenuInicio.addEventListener("click", mostrarInicio);
-    btnMenuResumo.addEventListener("click", mostrarResumo);
-    btnMenuExcel.addEventListener("click", mostrarExportar);
-    btnMenuLembretes.addEventListener("click", mostrarLembretes);
+    btnMenuInicio.onclick = mostrarInicio;
+    btnMenuResumo.onclick = mostrarResumo;
+    btnMenuExcel.onclick = mostrarExportar;
+    btnMenuLembretes.onclick = mostrarLembretes;
 
-    btnResumoTopo.addEventListener("click", mostrarResumo);
-    btnVoltarInicio.addEventListener("click", mostrarInicio);
-    btnVoltarInicioExportar.addEventListener("click", mostrarInicio);
-    btnVoltarInicioLembretes.addEventListener("click", mostrarInicio);
+    btnResumoTopo.onclick = mostrarResumo;
+    btnVoltarInicio.onclick = mostrarInicio;
+    btnVoltarInicioExportar.onclick = mostrarInicio;
+    btnVoltarInicioLembretes.onclick = mostrarInicio;
 }
 
 function mostrarInicio() {
@@ -260,7 +176,6 @@ function mostrarExportar() {
     btnMenuLembretes.classList.remove("ativo");
 
     atualizarPreviaExportacao();
-
     window.scrollTo(0, 0);
 }
 
@@ -277,58 +192,42 @@ function mostrarLembretes() {
 
     renderizarLembretes();
     atualizarIndicadorLembretes();
-
     window.scrollTo(0, 0);
 }
 
-// =====================================================
 // DATA
-// =====================================================
-
 function definirDataAtual() {
     dataInput.value = formatarDataISO(new Date());
 }
 
 function atualizarMes() {
     const hoje = new Date();
-    const texto = hoje.toLocaleDateString("pt-BR", {
-        month: "long",
-        year: "numeric"
-    });
-
+    const texto = hoje.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
     document.getElementById("mesAtual").textContent = texto;
     mesResumo.textContent = texto;
 }
 
-// =====================================================
 // LANÇAMENTOS
-// =====================================================
-
 function configurarLancamentos() {
-    btnNovoLancamento.addEventListener("click", abrirNovoLancamento);
-    btnFecharModal.addEventListener("click", fecharModal);
+    btnNovoLancamento.onclick = abrirNovoLancamento;
+    btnFecharModal.onclick = fecharModal;
 
-    modal.addEventListener("click", evento => {
-        if (evento.target === modal) fecharModal();
-    });
+    modal.onclick = e => { if (e.target === modal) fecharModal(); };
 
-    btnEntrada.addEventListener("click", () => selecionarTipo("entrada"));
-    btnSaida.addEventListener("click", () => selecionarTipo("saida"));
+    btnEntrada.onclick = () => selecionarTipo("entrada");
+    btnSaida.onclick = () => selecionarTipo("saida");
 
-    btnSalvar.addEventListener("click", salvarLancamentoFormulario);
-    btnExcluir.addEventListener("click", excluirLancamentoAtual);
+    btnSalvar.onclick = salvarLancamentoFormulario;
+    btnExcluir.onclick = excluirLancamentoAtual;
 }
 
 function abrirNovoLancamento() {
     lancamentoEmEdicao = null;
     limparFormulario();
-
     tituloModal.textContent = "Novo lançamento";
     btnSalvar.textContent = "Salvar lançamento";
     btnExcluir.hidden = true;
-
     modal.hidden = false;
-
     setTimeout(() => valorInput.focus(), 200);
 }
 
@@ -337,31 +236,19 @@ function fecharModal() {
     lancamentoEmEdicao = null;
 }
 
-// =====================================================
-// SELECIONAR TIPO
-// =====================================================
-
 function selecionarTipo(tipo) {
     tipoSelecionado = tipo;
 
     if (tipo === "entrada") {
         btnEntrada.classList.add("entrada-selecionada");
         btnSaida.classList.remove("saida-selecionada");
-
-        if (categoriaInput) categoriaInput.value = "Sem categoria";
+        categoriaInput.value = "Sem categoria";
     } else {
         btnSaida.classList.add("saida-selecionada");
         btnEntrada.classList.remove("entrada-selecionada");
-
-        if (categoriaInput && categoriaInput.value === "Sem categoria") {
-            categoriaInput.value = "Alimentação";
-        }
+        if (categoriaInput.value === "Sem categoria") categoriaInput.value = "Alimentação";
     }
 }
-
-// =====================================================
-// SALVAR LANÇAMENTO
-// =====================================================
 
 function salvarLancamentoFormulario() {
     const dados = {
@@ -377,20 +264,17 @@ function salvarLancamentoFormulario() {
     const novo = criarLancamento(dados);
     const validacao = validarLancamento(novo);
 
-    if (!validacao.valido) {
-        alert(validacao.mensagem);
-        return;
-    }
+    if (!validacao.valido) return alert(validacao.mensagem);
 
     if (lancamentoEmEdicao !== null) {
         atualizarLancamento(lancamentoEmEdicao, {
             tipo: dados.tipo,
             valor: Number(dados.valor),
-            descricao: String(dados.descricao).trim(),
+            descricao: dados.descricao.trim(),
             categoria: dados.categoria,
             pagamento: "Padrão",
             data: dados.data,
-            observacao: String(dados.observacao).trim()
+            observacao: dados.observacao.trim()
         });
     } else {
         adicionarLancamento(novo);
@@ -401,10 +285,6 @@ function salvarLancamentoFormulario() {
     atualizarPreviaExportacao();
     fecharModal();
 }
-
-// =====================================================
-// EDIÇÃO DE LANÇAMENTO
-// =====================================================
 
 function abrirEdicao(id) {
     const lancamento = obterLancamentoPorId(id);
@@ -420,12 +300,7 @@ function abrirEdicao(id) {
 
     valorInput.value = lancamento.valor;
     descricaoInput.value = lancamento.descricao;
-
-    categoriaInput.value =
-        lancamento.tipo === "entrada"
-            ? "Sem categoria"
-            : lancamento.categoria || "Alimentação";
-
+    categoriaInput.value = lancamento.tipo === "entrada" ? "Sem categoria" : lancamento.categoria || "Alimentação";
     pagamentoInput.value = "Padrão";
     dataInput.value = lancamento.data;
     observacaoInput.value = lancamento.observacao || "";
@@ -433,15 +308,10 @@ function abrirEdicao(id) {
     modal.hidden = false;
 }
 
-// =====================================================
-// EXCLUSÃO DE LANÇAMENTO
-// =====================================================
-
 function excluirLancamentoAtual() {
     if (lancamentoEmEdicao === null) return;
 
-    const confirmar = confirm("Deseja excluir este lançamento?");
-    if (!confirmar) return;
+    if (!confirm("Deseja excluir este lançamento?")) return;
 
     excluirLancamento(lancamentoEmEdicao);
 
@@ -451,100 +321,43 @@ function excluirLancamentoAtual() {
     fecharModal();
 }
 
-// =====================================================
-// LIMPAR TODOS OS REGISTROS
-// =====================================================
-
+// LIMPAR REGISTROS
 function configurarLimpezaRegistros() {
-    if (!btnLimparRegistros) {
-        console.warn("Botão de limpar registros não encontrado.");
-        return;
-    }
-
-    btnLimparRegistros.addEventListener("click", limparTodosOsRegistros);
+    if (!btnLimparRegistros) return;
+    btnLimparRegistros.onclick = limparTodosOsRegistros;
 }
 
 function limparTodosOsRegistros() {
     const lancamentos = obterLancamentos();
     const quantidade = lancamentos.length;
 
-    if (quantidade === 0) {
-        alert("Não existem registros para limpar.");
-        return;
-    }
+    if (quantidade === 0) return alert("Não existem registros para limpar.");
 
-    const primeiraConfirmacao = confirm(
-        "ATENÇÃO!\n\n" +
-        "Você está prestes a excluir TODOS os " + quantidade + " registros do aplicativo.\n\n" +
-        "Essa ação não poderá ser desfeita pelo aplicativo.\n\n" +
-        "Deseja continuar?"
-    );
+    if (!confirm("ATENÇÃO! Você está prestes a excluir TODOS os registros.")) return;
+    if (!confirm("SEGUNDA CONFIRMAÇÃO: Tem certeza absoluta?")) return;
 
-    if (!primeiraConfirmacao) return;
+    const texto = prompt("Digite LIMPAR para confirmar:");
+    if (texto !== "LIMPAR") return alert("Verificação incorreta.");
 
-    const segundaConfirmacao = confirm(
-        "SEGUNDA CONFIRMAÇÃO\n\n" +
-        "Todos os lançamentos atuais serão apagados.\n\n" +
-        "Recomendamos criar um backup antes de continuar.\n\n" +
-        "Tem certeza absoluta que deseja apagar os registros?"
-    );
+    if (!confirm("Última confirmação: deseja continuar?")) return;
 
-    if (!segundaConfirmacao) return;
-
-    const confirmacaoHumana = prompt(
-        "VERIFICAÇÃO DE SEGURANÇA\n\n" +
-        "Para confirmar a exclusão definitiva, digite exatamente:\n\n" +
-        "LIMPAR"
-    );
-
-    if (confirmacaoHumana === null) return;
-
-    if (confirmacaoHumana.trim() !== "LIMPAR") {
-        alert("Verificação incorreta.\n\nNenhum registro foi apagado.");
-        return;
-    }
-
-    const confirmacaoFinal = confirm(
-        "ÚLTIMA CONFIRMAÇÃO\n\n" +
-        "A exclusão será realizada agora.\n\n" +
-        "Deseja realmente continuar?"
-    );
-
-    if (!confirmacaoFinal) return;
-
-    try {
-        salvarLancamentos([]);
-        carregarTela();
-        atualizarResumoCompleto();
-        atualizarPreviaExportacao();
-
-        alert(quantidade + " registro(s) foram removidos com sucesso.");
-    } catch (erro) {
-        console.error("Erro ao limpar registros:", erro);
-        alert("Não foi possível limpar os registros.");
-    }
+    salvarLancamentos([]);
+    carregarTela();
+    atualizarResumoCompleto();
+    atualizarPreviaExportacao();
+    alert("Registros removidos com sucesso.");
 }
 
-// =====================================================
 // TELA INICIAL
-// =====================================================
-
 function carregarTela() {
     const lancamentos = obterLancamentos();
     const ordenados = ordenarLancamentos(lancamentos);
-
     renderizarLancamentos(ordenados);
     atualizarResumoTela(ordenados);
 }
 
-// =====================================================
-// RENDERIZAR LANÇAMENTOS
-// =====================================================
-
 function renderizarLancamentos(lancamentos) {
-    const itens = listaLancamentos.querySelectorAll(".lancamento");
-    itens.forEach(item => item.remove());
-
+    listaLancamentos.innerHTML = "";
     quantidadeLancamentos.textContent = lancamentos.length;
 
     if (lancamentos.length === 0) {
@@ -554,28 +367,111 @@ function renderizarLancamentos(lancamentos) {
 
     mensagemVazia.style.display = "none";
 
-    lancamentos.forEach(lancamento => {
-        listaLancamentos.appendChild(criarElementoLancamento(lancamento));
-    });
+    lancamentos.forEach(l => listaLancamentos.appendChild(criarElementoLancamento(l)));
 }
 
-// =====================================================
-// CRIAR ELEMENTO DE LANÇAMENTO
-// =====================================================
+function criarElementoLancamento(l) {
+    const div = document.createElement("div");
+    div.className = "lancamento";
 
-function criarElementoLancamento(lancamento) {
-    const elemento = document.createElement("div");
-    elemento.className = "lancamento";
-
-    const entrada = lancamento.tipo === "entrada";
+    const entrada = l.tipo === "entrada";
     const classe = entrada ? "entrada" : "saida";
     const sinal = entrada ? "+" : "-";
     const icone = entrada ? "↑" : "↓";
 
-    elemento.innerHTML = `
-        <div class="lancamento-icone ${classe}">
-            ${icone}
-        </div>
-
+    div.innerHTML = `
+        <div class="lancamento-icone ${classe}">${icone}</div>
         <div class="lancamento-info">
-            <strong
+            <strong>${escaparHTML(l.descricao)}</strong>
+            <small>${formatarData(l.data)} · ${escaparHTML(l.categoria)} · ${escaparHTML(l.pagamento)}</small>
+        </div>
+        <div class="lancamento-valor ${classe}">${sinal}${formatarMoeda(l.valor)}</div>
+        <button class="btn-editar-lancamento">Editar</button>
+    `;
+
+    div.querySelector(".btn-editar-lancamento").onclick = e => {
+        e.stopPropagation();
+        abrirEdicao(l.id);
+    };
+
+    div.onclick = () => abrirEdicao(l.id);
+
+    return div;
+}
+
+// RESUMO
+function atualizarResumoTela(lancamentos) {
+    const r = calcularResumo(lancamentos);
+    totalEntradas.textContent = formatarMoeda(r.entradas);
+    totalSaidas.textContent = formatarMoeda(r.saidas);
+    saldo.textContent = formatarMoeda(r.saldo);
+    saldo.style.color = r.saldo < 0 ? "#dc2626" : "#111827";
+}
+
+function configurarFiltros() {
+    filtroPeriodo.onchange = alterarPeriodo;
+    filtroTipo.onchange = atualizarResumoCompleto;
+    filtroDataInicial.onchange = atualizarResumoCompleto;
+    filtroDataFinal.onchange = atualizarResumoCompleto;
+    btnLimparFiltros.onclick = limparFiltros;
+}
+
+function alterarPeriodo() {
+    datasPersonalizadas.hidden = filtroPeriodo.value !== "personalizado";
+
+    if (filtroPeriodo.value === "personalizado") {
+        if (!filtroDataInicial.value) filtroDataInicial.value = obterInicioDoMesAtual();
+        if (!filtroDataFinal.value) filtroDataFinal.value = obterFimDoMesAtual();
+    }
+
+    atualizarResumoCompleto();
+}
+
+function obterFiltrosAtuais() {
+    return obterFiltrosGenericos(
+        filtroPeriodo.value,
+        filtroTipo.value,
+        filtroDataInicial.value,
+        filtroDataFinal.value
+    );
+}
+
+function obterLancamentosFiltrados() {
+    return filtrarLancamentos(obterLancamentos(), obterFiltrosAtuais());
+}
+
+function limparFiltros() {
+    filtroPeriodo.value = "mes";
+    filtroTipo.value = "todos";
+    filtroDataInicial.value = "";
+    filtroDataFinal.value = "";
+    datasPersonalizadas.hidden = true;
+    atualizarResumoCompleto();
+}
+
+function atualizarResumoCompleto() {
+    const lancamentos = obterLancamentosFiltrados();
+    const r = calcularResumo(lancamentos);
+
+    resumoEntradas.textContent = formatarMoeda(r.entradas);
+    resumoSaidas.textContent = formatarMoeda(r.saidas);
+    resumoSaldo.textContent = formatarMoeda(r.saldo);
+    resumoSaldo.style.color = r.saldo < 0 ? "#dc2626" : "#111827";
+
+    renderizarResumoCategorias(lancamentos);
+    renderizarResumoPagamentos(lancamentos);
+    atualizarTituloResumo();
+}
+
+function atualizarTituloResumo() {
+    const periodo = filtroPeriodo.value;
+    const textos = {
+        mes: "Este mês",
+        hoje: "Hoje",
+        semana: "Esta semana",
+        mesAnterior: "Mês anterior",
+        todos: "Todos os lançamentos"
+    };
+
+    if (periodo === "personalizado") {
+        if (filtroDataInicial.value && filtroDataFinal.value) {
