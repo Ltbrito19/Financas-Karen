@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="theme-color"
+        content="#111827"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="default"
+    >
+
+    <meta
+        name="apple-mobile-web-app-title"
+        content="Minhas Finanças"
+    >
+
+    <title>Minhas Finanças</title>
+
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+<main class="app">
+
+
+    <!-- =================================================
+         TELA INICIAL
+    ================================================== -->
+
+    <section id="telaInicio">
+
+
+        <header class="header">
+
+            <div>
+
+                <h1>
+                    Minhas Finanças
+                </h1>
+
+                <p id="mesAtual">
+                    Agosto 2026
+                </p>
+
+            </div>
+
+
+            <button
+                class="btn-icon"
+                id="btnResumoTopo"
+                aria-label="Resumo"
+            >
+                ☰
+            </button>
+
+        </header>
+
+
+        <!-- RESUMO PRINCIPAL -->
+
+        <section class="resumo">
+
+            <div class="card saldo">
+
+                <span class="titulo-card">
+                    Saldo
+                </span>
+
+                <strong id="saldo">
+                    R$ 0,00
+                </strong>
+
+            </div>
+
+
+            <div class="resumo-duplo">
+
+                <div class="card entrada">
+
+                    <span class="titulo-card">
+                        Entradas
+                    </span>
+
+                    <strong id="totalEntradas">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+
+                <div class="card saida">
+
+                    <span class="titulo-card">
+                        Saídas
+                    </span>
+
+                    <strong id="totalSaidas">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- NOVO LANÇAMENTO -->
+
+        <button
+            class="btn-principal"
+            id="btnNovoLancamento"
+        >
+
+            <span>
+                ＋
+            </span>
+
+            Novo lançamento
+
+        </button>
+
+
+        <!-- LANÇAMENTOS -->
+
+        <section class="lista-section">
+
+            <div class="titulo-lista">
+
+                <h2>
+                    Lançamentos
+                </h2>
+
+                <span id="quantidadeLancamentos">
+                    0
+                </span>
+
+            </div>
+
+
+            <div
+                id="listaLancamentos"
+                class="lista"
+            >
+
+                <div
+                    class="vazio"
+                    id="mensagemVazia"
+                >
+
+                    <div class="icone-vazio">
+                        💰
+                    </div>
+
+                    <h3>
+                        Nenhum lançamento
+                    </h3>
+
+                    <p>
+                        Comece registrando uma
+                        entrada ou saída.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+    <!-- =================================================
+         TELA RESUMO
+    ================================================== -->
+
+    <section
+        id="telaResumo"
+        hidden
+    >
+
+
+        <header class="header">
+
+            <div>
+
+                <h1>
+                    Resumo
+                </h1>
+
+                <p id="mesResumo">
+                    Agosto 2026
+                </p>
+
+            </div>
+
+
+            <button
+                class="btn-icon"
+                id="btnVoltarInicio"
+                aria-label="Voltar"
+            >
+                ←
+            </button>
+
+        </header>
+
+
+        <!-- FILTROS DO RESUMO -->
+
+        <section class="filtros-resumo">
+
+
+            <div class="campo">
+
+                <label for="filtroPeriodo">
+                    Período
+                </label>
+
+
+                <select
+                    id="filtroPeriodo"
+                >
+
+                    <option value="mes">
+                        Este mês
+                    </option>
+
+                    <option value="hoje">
+                        Hoje
+                    </option>
+
+                    <option value="semana">
+                        Esta semana
+                    </option>
+
+                    <option value="mesAnterior">
+                        Mês anterior
+                    </option>
+
+                    <option value="personalizado">
+                        Período personalizado
+                    </option>
+
+                    <option value="todos">
+                        Todos os lançamentos
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="filtroTipo">
+                    Tipo
+                </label>
+
+
+                <select
+                    id="filtroTipo"
+                >
+
+                    <option value="todos">
+                        Todos
+                    </option>
+
+                    <option value="entrada">
+                        Entradas
+                    </option>
+
+                    <option value="saida">
+                        Saídas
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div
+                id="datasPersonalizadas"
+                class="datas-personalizadas"
+                hidden
+            >
+
+                <div class="campo">
+
+                    <label for="filtroDataInicial">
+                        Data inicial
+                    </label>
+
+                    <input
+                        type="date"
+                        id="filtroDataInicial"
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="filtroDataFinal">
+                        Data final
+                    </label>
+
+                    <input
+                        type="date"
+                        id="filtroDataFinal"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn-limpar-filtros"
+                id="btnLimparFiltros"
+            >
+
+                Limpar filtros
+
+            </button>
+
+        </section>
+
+
+        <!-- RESUMO -->
+
+        <section class="resumo">
+
+            <div class="card saldo">
+
+                <span class="titulo-card">
+                    Saldo
+                </span>
+
+                <strong id="resumoSaldo">
+                    R$ 0,00
+                </strong>
+
+            </div>
+
+
+            <div class="resumo-duplo">
+
+                <div class="card entrada">
+
+                    <span class="titulo-card">
+                        Entradas
+                    </span>
+
+                    <strong id="resumoEntradas">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+
+                <div class="card saida">
+
+                    <span class="titulo-card">
+                        Saídas
+                    </span>
+
+                    <strong id="resumoSaidas">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CATEGORIAS -->
+
+        <section class="lista-section">
+
+            <div class="titulo-lista">
+
+                <h2>
+                    Por categoria
+                </h2>
+
+            </div>
+
+
+            <div
+                id="resumoCategorias"
+                class="lista"
+            >
+
+            </div>
+
+        </section>
+
+
+        <!-- PAGAMENTOS -->
+
+        <section class="lista-section">
+
+            <div class="titulo-lista">
+
+                <h2>
+                    Por forma de pagamento
+                </h2>
+
+            </div>
+
+
+            <div
+                id="resumoPagamentos"
+                class="lista"
+            >
+
+            </div>
+
+        </section>
+
+
+    </section>
+
+
+    <!-- =================================================
+         TELA EXPORTAR
+    ================================================== -->
+
+    <section
+        id="telaExportar"
+        hidden
+    >
+
+
+        <header class="header">
+
+            <div>
+
+                <h1>
+                    Exportar
+                </h1>
+
+                <p>
+                    Gerar arquivo Excel
+                </p>
+
+            </div>
+
+
+            <button
+                class="btn-icon"
+                id="btnVoltarInicioExportar"
+                aria-label="Voltar"
+            >
+                ←
+            </button>
+
+        </header>
+
+
+        <!-- CONFIGURAÇÃO DA EXPORTAÇÃO -->
+
+        <section class="filtros-resumo">
+
+
+            <div class="campo">
+
+                <label for="exportarPeriodo">
+                    Período
+                </label>
+
+
+                <select
+                    id="exportarPeriodo"
+                >
+
+                    <option value="mes">
+                        Este mês
+                    </option>
+
+                    <option value="hoje">
+                        Hoje
+                    </option>
+
+                    <option value="semana">
+                        Esta semana
+                    </option>
+
+                    <option value="mesAnterior">
+                        Mês anterior
+                    </option>
+
+                    <option value="personalizado">
+                        Período personalizado
+                    </option>
+
+                    <option value="todos">
+                        Todos os lançamentos
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="exportarTipo">
+                    Tipo
+                </label>
+
+
+                <select
+                    id="exportarTipo"
+                >
+
+                    <option value="todos">
+                        Todos
+                    </option>
+
+                    <option value="entrada">
+                        Entradas
+                    </option>
+
+                    <option value="saida">
+                        Saídas
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div
+                id="exportarDatasPersonalizadas"
+                class="datas-personalizadas"
+                hidden
+            >
+
+                <div class="campo">
+
+                    <label for="exportarDataInicial">
+                        Data inicial
+                    </label>
+
+                    <input
+                        type="date"
+                        id="exportarDataInicial"
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="exportarDataFinal">
+                        Data final
+                    </label>
+
+                    <input
+                        type="date"
+                        id="exportarDataFinal"
+                    >
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- PRÉVIA -->
+
+        <section class="lista-section">
+
+
+            <div class="titulo-lista">
+
+                <h2>
+                    Prévia da exportação
+                </h2>
+
+            </div>
+
+
+            <div
+                class="card"
+                id="exportarPrevia"
+            >
+
+                <span class="titulo-card">
+                    Lançamentos
+                </span>
+
+
+                <strong
+                    id="exportarQuantidade"
+                >
+                    0
+                </strong>
+
+
+                <p
+                    id="exportarPeriodoTexto"
+                >
+                    Este mês
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- BOTÃO EXCEL -->
+
+        <section class="lista-section">
+
+
+            <button
+                type="button"
+                class="btn-principal"
+                id="btnGerarExcel"
+            >
+
+                <span>
+                    📊
+                </span>
+
+                Gerar Excel
+
+            </button>
+
+
+            <p
+                id="mensagemExportacao"
+                class="mensagem-exportacao"
+            ></p>
+
+
+        </section>
+
+
+        <!-- INFORMAÇÕES -->
+
+        <section class="lista-section">
+
+
+            <div class="titulo-lista">
+
+                <h2>
+                    O arquivo terá
+                </h2>
+
+            </div>
+
+
+            <div class="lancamento">
+
+                <div class="lancamento-icone">
+                    📋
+                </div>
+
+
+                <div class="lancamento-info">
+
+                    <strong>
+                        Lançamentos
+                    </strong>
+
+                    <small>
+                        Todos os registros selecionados
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="lancamento">
+
+                <div class="lancamento-icone">
+                    📊
+                </div>
+
+
+                <div class="lancamento-info">
+
+                    <strong>
+                        Resumo
+                    </strong>
+
+                    <small>
+                        Entradas, saídas e saldo
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="lancamento">
+
+                <div class="lancamento-icone">
+                    📁
+                </div>
+
+
+                <div class="lancamento-info">
+
+                    <strong>
+                        Categorias
+                    </strong>
+
+                    <small>
+                        Totais por categoria
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="lancamento">
+
+                <div class="lancamento-icone">
+                    💰
+                </div>
+
+
+                <div class="lancamento-info">
+
+                    <strong>
+                        Receitas
+                    </strong>
+
+                    <small>
+                        Total das entradas financeiras
+                    </small>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+    </section>
+
+
+    <!-- =================================================
+         TELA BACKUP
+    ================================================== -->
+
+    <section
+        id="telaBackup"
+        hidden
+    >
+
+
+        <header class="header">
+
+            <div>
+
+                <h1>
+                    Backup
+                </h1>
+
+                <p>
+                    Segurança dos seus dados
+                </p>
+
+            </div>
+
+
+            <button
+                class="btn-icon"
+                id="btnVoltarInicioBackup"
+                aria-label="Voltar"
+            >
+                ←
+            </button>
+
+        </header>
+
+
+        <!-- =================================================
+             CRIAR BACKUP
+        ================================================== -->
+
+        <section class="lista-section">
+
+            <div class="titulo-lista">
+
+                <h2>
+                    Criar backup
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <span class="titulo-card">
+                    Backup completo
+                </span>
+
+
+                <p>
+
+                    Salve uma cópia de todos os
+                    seus lançamentos em um arquivo
+                    seguro.
+
+                </p>
+
+
+                <button
+                    type="button"
+                    class="btn-principal"
+                    id="btnCriarBackup"
+                >
+
+                    <span>
+                        💾
+                    </span>
+
+                    Criar backup
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             RESTAURAR BACKUP
+        ================================================== -->
+
+        <section class="lista-section">
+
+            <div class="titulo-lista">
+
+                <h2>
+                    Restaurar backup
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <span class="titulo-card">
+                    Recuperar dados
+                </span>
+
+
+                <p>
+
+                    Selecione um arquivo de backup
+                    criado pelo Minhas Finanças.
+
+                </p>
+
+
+                <input
+                    type="file"
+                    id="arquivoBackup"
+                    accept=".json,application/json"
+                    hidden
+                >
+
+
+                <button
+                    type="button"
+                    class="btn-principal"
+                    id="btnSelecionarBackup"
+                >
+
+                    <span>
+                        📂
+                    </span>
+
+                    Selecionar backup
+
+                </button>
+
+
+                <p
+                    id="nomeArquivoBackup"
+                    class="mensagem-exportacao"
+                ></p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LIMPAR REGISTROS
+        ================================================== -->
+
+        <section class="lista-section">
+
+            <div class="titulo-lista">
+
+                <h2>
+                    Limpar registros
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <span class="titulo-card">
+                    Excluir todos os dados
+                </span>
+
+
+                <p>
+
+                    Remove todos os lançamentos
+                    atualmente salvos no aplicativo.
+
+                </p>
+
+
+                <button
+                    type="button"
+                    class="btn-excluir"
+                    id="btnLimparRegistros"
+                >
+
+                    🗑️
+                    Limpar registros
+
+                </button>
+
+
+                <p class="mensagem-exportacao">
+
+                    Esta operação possui múltiplas
+                    confirmações de segurança.
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             AVISO
+        ================================================== -->
+
+        <section class="lista-section">
+
+            <div class="lancamento">
+
+                <div class="lancamento-icone">
+                    🔐
+                </div>
+
+
+                <div class="lancamento-info">
+
+                    <strong>
+                        Importante
+                    </strong>
+
+                    <small>
+
+                        Guarde seu arquivo de backup
+                        em um local seguro, como
+                        Arquivos ou iCloud.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </section>
+
+
+    <!-- =================================================
+         MENU INFERIOR
+    ================================================== -->
+
+    <nav class="menu-inferior">
+
+
+        <button
+            class="menu-item ativo"
+            id="btnMenuInicio"
+        >
+
+            <span>
+                🏠
+            </span>
+
+            <small>
+                Início
+            </small>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            id="btnMenuResumo"
+        >
+
+            <span>
+                📊
+            </span>
+
+            <small>
+                Resumo
+            </small>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            id="btnMenuExcel"
+        >
+
+            <span>
+                📤
+            </span>
+
+            <small>
+                Exportar
+            </small>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            id="btnMenuBackup"
+        >
+
+            <span>
+                💾
+            </span>
+
+            <small>
+                Backup
+            </small>
+
+        </button>
+
+
+    </nav>
+
+
+</main>
+
+
+<!-- =====================================================
+     MODAL LANÇAMENTO
+====================================================== -->
+
+<div
+    class="modal-overlay"
+    id="modalLancamento"
+    hidden
+>
+
+    <div class="modal">
+
+
+        <div class="modal-header">
+
+            <h2 id="tituloModal">
+                Novo lançamento
+            </h2>
+
+
+            <button
+                class="btn-fechar"
+                id="btnFecharModal"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- TIPO -->
+
+        <div class="campo">
+
+            <label>
+                Tipo
+            </label>
+
+
+            <div class="tipo-lancamento">
+
+                <button
+                    type="button"
+                    class="tipo-btn entrada-selecionada"
+                    id="btnEntrada"
+                >
+                    🟢 Entrada
+                </button>
+
+
+                <button
+                    type="button"
+                    class="tipo-btn"
+                    id="btnSaida"
+                >
+                    🔴 Saída
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- VALOR -->
+
+        <div class="campo">
+
+            <label for="valor">
+                Valor
+            </label>
+
+            <input
+                type="number"
+                id="valor"
+                placeholder="0,00"
+                inputmode="decimal"
+                step="0.01"
+            >
+
+        </div>
+
+
+        <!-- DESCRIÇÃO -->
+
+        <div class="campo">
+
+            <label for="descricao">
+                Descrição
+            </label>
+
+            <input
+                type="text"
+                id="descricao"
+                placeholder="Ex.: Mercado"
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <!-- CATEGORIA -->
+
+        <div class="campo">
+
+            <label for="categoria">
+                Categoria
+            </label>
+
+            <select id="categoria">
+
+                <option value="Diversos">
+                    Diversos
+                </option>
+
+                <option value="Alimentação">
+                    Alimentação
+                </option>
+
+                <option value="Transportes">
+                    Transportes
+                </option>
+
+                <option value="Vestuários">
+                    Vestuários
+                </option>
+
+                <option value="Saúde">
+                    Saúde
+                </option>
+
+                <option value="Lazer">
+                    Lazer
+                </option>
+
+                <option value="Casa">
+                    Casa
+                </option>
+
+                <option value="Cartão MP">
+                    Cartão MP
+                </option>
+
+                <option value="Cartão Bradesco">
+                    Cartão Bradesco
+                </option>
+
+                <option value="Outros">
+                    Outros
+                </option>
+
+                <option value="Lívia">
+                    Lívia
+                </option>
+
+                <option value="Léo">
+                    Léo
+                </option>
+
+                <option value="Luz">
+                    Luz
+                </option>
+
+                <option value="Viagens">
+                    Viagens
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- FORMA DE PAGAMENTO -->
+
+        <div class="campo">
+
+            <label for="pagamento">
+                Forma de pagamento
+            </label>
+
+            <select id="pagamento">
+
+                <option value="Padrão">
+                    Padrão
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- DATA -->
+
+        <div class="campo">
+
+            <label for="data">
+                Data
+            </label>
+
+            <input
+                type="date"
+                id="data"
+            >
+
+        </div>
+
+
+        <!-- OBSERVAÇÃO -->
+
+        <div class="campo">
+
+            <label for="observacao">
+                Observação
+            </label>
+
+            <textarea
+                id="observacao"
+                placeholder="Opcional"
+                rows="3"
+            ></textarea>
+
+        </div>
+
+
+        <button
+            class="btn-salvar"
+            id="btnSalvar"
+        >
+            Salvar lançamento
+        </button>
+
+
+        <button
+            class="btn-excluir"
+            id="btnExcluir"
+            hidden
+        >
+            Excluir lançamento
+        </button>
+
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     BIBLIOTECA EXCEL
+====================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"
+></script>
+
+
+<!-- =====================================================
+     MÓDULOS
+====================================================== -->
+
+<script src="js/database.js"></script>
+
+<script src="js/lancamentos.js"></script>
+
+<script src="js/resumo.js"></script>
+
+<script src="js/filtros.js"></script>
+
+<script src="js/exportar.js"></script>
+
+<script src="js/backup.js"></script>
+
+<script src="auth.js"></script>
+
+<script src="app.js"></script>
+
+
+<!-- =====================================================
+     CONEXÃO DA TELA DE BACKUP
+====================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+
+        const telaInicio =
+            document.getElementById(
+                "telaInicio"
+            );
+
+
+        const telaResumo =
+            document.getElementById(
+                "telaResumo"
+            );
+
+
+        const telaExportar =
+            document.getElementById(
+                "telaExportar"
+            );
+
+
+        const telaBackup =
+            document.getElementById(
+                "telaBackup"
+            );
+
+
+        const btnMenuInicio =
+            document.getElementById(
+                "btnMenuInicio"
+            );
+
+
+        const btnMenuResumo =
+            document.getElementById(
+                "btnMenuResumo"
+            );
+
+
+        const btnMenuExcel =
+            document.getElementById(
+                "btnMenuExcel"
+            );
+
+
+        const btnMenuBackup =
+            document.getElementById(
+                "btnMenuBackup"
+            );
+
+
+        const btnVoltarInicioBackup =
+            document.getElementById(
+                "btnVoltarInicioBackup"
+            );
+
+
+        const btnCriarBackup =
+            document.getElementById(
+                "btnCriarBackup"
+            );
+
+
+        const btnSelecionarBackup =
+            document.getElementById(
+                "btnSelecionarBackup"
+            );
+
+
+        const arquivoBackup =
+            document.getElementById(
+                "arquivoBackup"
+            );
+
+
+        const nomeArquivoBackup =
+            document.getElementById(
+                "nomeArquivoBackup"
+            );
+
+
+        // =================================================
+        // MOSTRAR BACKUP
+        // =================================================
+
+        function mostrarBackup() {
+
+            telaInicio.hidden =
+                true;
+
+            telaResumo.hidden =
+                true;
+
+            telaExportar.hidden =
+                true;
+
+            telaBackup.hidden =
+                false;
+
+
+            btnMenuInicio.classList.remove(
+                "ativo"
+            );
+
+            btnMenuResumo.classList.remove(
+                "ativo"
+            );
+
+            btnMenuExcel.classList.remove(
+                "ativo"
+            );
+
+            btnMenuBackup.classList.add(
+                "ativo"
+            );
+
+
+            window.scrollTo(
+                0,
+                0
+            );
+
+        }
+
+
+        // =================================================
+        // VOLTAR
+        // =================================================
+
+        function voltarInicioBackup() {
+
+            telaInicio.hidden =
+                false;
+
+            telaResumo.hidden =
+                true;
+
+            telaExportar.hidden =
+                true;
+
+            telaBackup.hidden =
+                true;
+
+
+            btnMenuInicio.classList.add(
+                "ativo"
+            );
+
+            btnMenuResumo.classList.remove(
+                "ativo"
+            );
+
+            btnMenuExcel.classList.remove(
+                "ativo"
+            );
+
+            btnMenuBackup.classList.remove(
+                "ativo"
+            );
+
+
+            window.scrollTo(
+                0,
+                0
+            );
+
+        }
+
+
+        // =================================================
+        // MENU BACKUP
+        // =================================================
+
+        btnMenuBackup.addEventListener(
+            "click",
+            mostrarBackup
+        );
+
+
+        // =================================================
+        // BOTÃO VOLTAR
+        // =================================================
+
+        btnVoltarInicioBackup.addEventListener(
+            "click",
+            voltarInicioBackup
+        );
+
+
+        // =================================================
+        // CRIAR BACKUP
+        // =================================================
+
+        btnCriarBackup.addEventListener(
+            "click",
+            async () => {
+
+                await exportarBackup();
+
+            }
+        );
+
+
+        // =================================================
+        // SELECIONAR ARQUIVO
+        // =================================================
+
+        btnSelecionarBackup.addEventListener(
+            "click",
+            () => {
+
+                arquivoBackup.click();
+
+            }
+        );
+
+
+        // =================================================
+        // ARQUIVO SELECIONADO
+        // =================================================
+
+        arquivoBackup.addEventListener(
+            "change",
+            async evento => {
+
+                const arquivo =
+                    evento.target.files[0];
+
+
+                if (
+                    !arquivo
+                ) {
+
+                    return;
+
+                }
+
+
+                nomeArquivoBackup.textContent =
+                    "Arquivo selecionado: " +
+                    arquivo.name;
+
+
+                await restaurarBackup(
+                    arquivo
+                );
+
+
+                arquivoBackup.value =
+                    "";
+
+            }
+        );
+
+
+    }
+);
+
+</script>
+
+
+<!-- =====================================================
+     SERVICE WORKER
+====================================================== -->
+
+<script>
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener(
+        "load",
+        () => {
+
+            navigator.serviceWorker
+                .register(
+                    "service-worker.js"
+                )
+                .then(
+                    registro => {
+
+                        console.log(
+                            "Service Worker registrado."
+                        );
+
+                    }
+                )
+                .catch(
+                    erro => {
+
+                        console.error(
+                            "Erro no Service Worker:",
+                            erro
+                        );
+
+                    }
+                );
+
+        }
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>
